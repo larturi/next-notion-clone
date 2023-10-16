@@ -6,6 +6,8 @@
 - shadcn-ui
 - next-themes
 - trunk
+- convex.dev (evelopment platform)
+- clerk.com (authentication)
 
 ## Getting Started
 
@@ -26,4 +28,12 @@ bun dev
 ```bash
 npx shadcn-ui@latest init
 npx shadcn-ui@latest add button
+```
+
+## Convex
+
+<https://dashboard.convex.dev/t/larturi/next-notion-clone/pleasant-opossum-550/data>
+
+```bash
+npx convex dev
 ```
