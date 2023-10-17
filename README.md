@@ -2,7 +2,8 @@
 
 ## Tecnologies
 
-- next.js
+- next.js (13.5.4)
+- node (18.14.1)
 - shadcn-ui
 - next-themes
 - trunk
