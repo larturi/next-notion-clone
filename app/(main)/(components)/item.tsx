@@ -1,44 +1,71 @@
 "use client";
 
+import {
+  ChevronDown,
+  ChevronRight,
+  LucideIcon,
+  MoreHorizontal,
+  Plus,
+  Trash,
+} from "lucide-react";
+import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import { useUser } from "@clerk/clerk-react";
+
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react";
-import { useMutation } from "convex/react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
-import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 interface ItemProps {
   id?: Id<"documents">;
   documentIcon?: string;
-  label: string;
   active?: boolean;
   expanded?: boolean;
   isSearch?: boolean;
   level?: number;
-  icon: LucideIcon;
-  onClick: () => void;
   onExpand?: () => void;
+  label: string;
+  onClick?: () => void;
+  icon: LucideIcon;
 }
 
 export const Item = ({
   id,
-  documentIcon,
   label,
+  onClick,
+  icon: Icon,
   active,
-  expanded,
+  documentIcon,
   isSearch,
   level = 0,
-  icon: Icon,
-  onClick,
   onExpand,
+  expanded,
 }: ItemProps) => {
-  const ChevronIcon = expanded ? ChevronDown : ChevronRight;
-
+  const { user } = useUser();
   const router = useRouter();
   const create = useMutation(api.documents.create);
-  // const archive = useMutation(api.documents.archive);
+  const archive = useMutation(api.documents.archive);
+
+  const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+    const promise = archive({ id }).then(() => router.push("/documents"));
+
+    toast.promise(promise, {
+      loading: "Moving to trash...",
+      success: "Note moved to trash!",
+      error: "Failed to archive note.",
+    });
+  };
 
   const handleExpand = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -65,6 +92,8 @@ export const Item = ({
       error: "Failed to create a new note.",
     });
   };
+
+  const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
   return (
     <div
@@ -94,19 +123,13 @@ export const Item = ({
       )}
       <span className="truncate">{label}</span>
       {isSearch && (
-        <kbd
-          className="ml-auto pointer-events-none inline-flex 
-            h-5 select-none items-center gap-1 rounded border bg-muted 
-            px-1.5 font-mono text-[10px] font-medium 
-            text-muted-foreground opacity-100"
-        >
+        <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
           <span className="text-xs">⌘</span>K
         </kbd>
       )}
-
       {!!id && (
         <div className="ml-auto flex items-center gap-x-2">
-          {/* <DropdownMenu>
+          <DropdownMenu>
             <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
               <div
                 role="button"
@@ -130,7 +153,7 @@ export const Item = ({
                 Last edited by: {user?.fullName}
               </div>
             </DropdownMenuContent>
-          </DropdownMenu> */}
+          </DropdownMenu>
           <div
             role="button"
             onClick={onCreate}
