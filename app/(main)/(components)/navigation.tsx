@@ -28,6 +28,7 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { ActionCtx } from "../../../convex/_generated/server";
+import { TrashBox } from "./trashbox";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -165,17 +166,19 @@ export const Navigation = () => {
             <Item onClick={handleCreate} icon={Plus} label="Add a page" />
           </div>
 
-          <Popover>
-            <PopoverTrigger className="w-full mt-4">
-              <Item label="Trash" icon={Trash} />
-            </PopoverTrigger>
-            <PopoverContent
-              className="p-0 w-72"
-              side={isMobile ? "bottom" : "right"}
-            >
-              <p>Trash box</p>
-            </PopoverContent>
-          </Popover>
+          <div className="absolute bottom-0 w-full mt-0">
+            <Popover>
+              <PopoverTrigger className="w-full mt-4">
+                <Item label="Trash" icon={Trash} />
+              </PopoverTrigger>
+              <PopoverContent
+                className="p-0 w-72"
+                side={isMobile ? "bottom" : "right"}
+              >
+                <TrashBox />
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
         <div
