@@ -9,6 +9,7 @@
 - trunk
 - convex.dev (evelopment platform)
 - clerk.com (authentication)
+- Zustand
 
 ## Getting Started
 
