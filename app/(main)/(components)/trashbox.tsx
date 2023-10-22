@@ -68,6 +68,7 @@ export const TrashBox = () => {
   return (
     <div
       className="text-sm z-[999999] border-gray-200 bg-zinc-50
+      dark:bg-black dark:border-secondary
         border rounded-sm shadow-lg w-[400px] absolute bottom-0
         "
     >
