@@ -69,7 +69,7 @@ export const TrashBox = () => {
     <div
       className="text-sm z-[999999] border-gray-200 bg-zinc-50
       dark:bg-black dark:border-secondary
-        border rounded-sm shadow-lg w-[400px] absolute bottom-0
+        border rounded-sm shadow-lg w-[380px] mt-10 absolute bottom-[-16px]
         "
     >
       <div className="flex items-center gap-x-1 p-2">
